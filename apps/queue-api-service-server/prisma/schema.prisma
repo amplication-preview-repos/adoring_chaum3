@@ -1,0 +1,55 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model QueueItem {
+  content             String?
+  createdAt           DateTime                          @default(now())
+  id                  String                            @id @default(cuid())
+  queueContent        String?
+  queueItemStatus     EnumQueueItemQueueItemStatus?
+  queueStatusType     EnumQueueItemQueueStatusType?
+  status              EnumQueueItemStatus?
+  statusTypeQueueItem EnumQueueItemStatusTypeQueueItem?
+  updatedAt           DateTime                          @updatedAt
+}
+
+model KafkaMessage {
+  createdAt        DateTime                     @default(now())
+  id               String                       @id @default(cuid())
+  kafkaStatus      EnumKafkaMessageKafkaStatus?
+  messagePayload   Json?
+  payload          Json?
+  relatedQueueItem String?
+  status           EnumKafkaMessageStatus?
+  updatedAt        DateTime                     @updatedAt
+}
+
+enum EnumQueueItemQueueItemStatus {
+  Option1
+}
+
+enum EnumQueueItemQueueStatusType {
+  Option1
+}
+
+enum EnumQueueItemStatus {
+  Option1
+}
+
+enum EnumQueueItemStatusTypeQueueItem {
+  Option1
+}
+
+enum EnumKafkaMessageKafkaStatus {
+  Option1
+}
+
+enum EnumKafkaMessageStatus {
+  Option1
+}
