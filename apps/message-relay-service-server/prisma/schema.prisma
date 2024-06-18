@@ -1,0 +1,51 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Endpoint {
+  createdAt DateTime               @default(now())
+  id        String                 @id @default(cuid())
+  typeField EnumEndpointTypeField?
+  updatedAt DateTime               @updatedAt
+  url       String?
+}
+
+model Message {
+  content   String?
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  logs      Log[]
+  recipient String?
+  sender    String?
+  updatedAt DateTime @updatedAt
+}
+
+model Relay {
+  createdAt DateTime         @default(now())
+  id        String           @id @default(cuid())
+  status    EnumRelayStatus?
+  updatedAt DateTime         @updatedAt
+}
+
+model Log {
+  createdAt DateTime  @default(now())
+  id        String    @id @default(cuid())
+  message   Message?  @relation(fields: [messageId], references: [id])
+  messageId String?
+  status    String?
+  timestamp DateTime?
+  updatedAt DateTime  @updatedAt
+}
+
+enum EnumEndpointTypeField {
+  Option1
+}
+
+enum EnumRelayStatus {
+  Option1
+}
